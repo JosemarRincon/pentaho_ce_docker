@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+    pentaho-db:
+        image: postgres:9.6
+        container_name: pentaho-db
+        healthcheck:
+            test: "pg_isready -q -h pentaho-db"
+            interval: 3s
+            timeout: 5s
+            retries: 5
+        environment:
+            - POSTGRES_USER=pentaho
+            - POSTGRES_PASSWORD=pentahouser
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+    pentaho-server:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        image: sesgo/pentaho-server:8.0.0.0-28
+        container_name: pentaho-server
+        restart: always
+        depends_on:
+            - pentaho-db
+        ports:
+            - "8080:8080"
+        environment: 
+            - THEMA=sapphire
+            - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true -Dhttp.proxyHost=10.239.68.1 -Dhttp.proxyPort=3128
+        command: run

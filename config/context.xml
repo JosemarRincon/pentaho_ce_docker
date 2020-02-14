@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context >
+
+	<Resource name="jdbc/Hibernate" auth="Container" type="javax.sql.DataSource"
+		factory="org.apache.commons.dbcp.BasicDataSourceFactory" maxActive="20" maxIdle="5"
+		maxWait="10000" username="@USERNAME@" password="@PASSWORD@"
+		driverClassName="@DRIVER_CLASS_NAME@" url="@URL_HIBER@"
+		validationQuery="@VALIDATION_QUERY@" 
+	/>
+		
+	<Resource name="jdbc/Quartz" auth="Container" type="javax.sql.DataSource"
+		factory="org.apache.commons.dbcp.BasicDataSourceFactory" maxActive="20" maxIdle="5"
+		maxWait="10000" username="@USERNAME@" password="@PASSWORD@"
+		driverClassName="@DRIVER_CLASS_NAME@" url="@URL_QUARTZ@"
+		validationQuery="@VALIDATION_QUERY@"
+	/>
+		
+		
+</Context>
