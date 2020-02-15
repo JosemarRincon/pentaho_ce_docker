@@ -54,8 +54,8 @@ RUN echo $TIMEZONE > /etc/timezone && \
 RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho; chown pentaho:pentaho ${PENTAHO_HOME}
 
 # Download Pentaho BI Server
-#RUN curl -SL http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip -o /tmp/pentaho-server-ce-${BISERVER_TAG}.zip --retry 3 -C -
-COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+RUN curl -SL http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip -o /tmp/pentaho-server-ce-${BISERVER_TAG}.zip --retry 3 -C -
+#COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
 
 
 RUN  unzip  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  $PENTAHO_HOME 
