@@ -34,8 +34,6 @@ RUN set -ex \
         curl \
         vim  \
         rsync \
-        netcat \
-        postgresql-client \
         locales \
         wget \
         zip \
@@ -54,19 +52,18 @@ RUN echo $TIMEZONE > /etc/timezone && \
 RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho; chown pentaho:pentaho ${PENTAHO_HOME}
 
 # Download Pentaho BI Server
-RUN curl -SL http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip -o /tmp/pentaho-server-ce-${BISERVER_TAG}.zip --retry 3 -C -
+RUN curl -SL http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip \
+        -o /tmp/pentaho-server-ce-${BISERVER_TAG}.zip --retry 3 -C - \
+        unzip  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  $PENTAHO_HOME \
+        chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
+        chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh 
 #COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
-
-
-RUN  unzip  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  $PENTAHO_HOME 
 
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
 
-RUN chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
-        && chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh \
-        && chown -R pentaho:pentaho ${PENTAHO_HOME} \
+RUN chown -R pentaho:pentaho ${PENTAHO_HOME} \
         && apt-get purge --auto-remove -yqq \
         && apt-get autoremove -yqq --purge \
         && apt-get clean \
