@@ -34,6 +34,8 @@ RUN set -ex \
         curl \
         vim  \
         rsync \
+        netcat \
+        postgresql-client \
         locales \
         wget \
         zip \
@@ -44,27 +46,31 @@ RUN set -ex \
 
 
 RUN echo $TIMEZONE > /etc/timezone && \
-    echo $LOCALE >> /etc/locale.gen && \
-    locale-gen && \
-    dpkg-reconfigure locales && \
-    dpkg-reconfigure -f noninteractive tzdata
+        echo $LOCALE >> /etc/locale.gen && \
+        locale-gen && \
+        dpkg-reconfigure locales && \
+        dpkg-reconfigure -f noninteractive tzdata
 
-RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho; chown pentaho:pentaho ${PENTAHO_HOME}
-
-# Download Pentaho BI Server
-RUN curl -SL http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip \
-        -o /tmp/pentaho-server-ce-${BISERVER_TAG}.zip --retry 3 -C - \
-        unzip  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  $PENTAHO_HOME \
-        chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
-        chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh 
-#COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
 
-RUN chown -R pentaho:pentaho ${PENTAHO_HOME} \
-        && apt-get purge --auto-remove -yqq \
+# Download Pentaho BI Server
+RUN if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo existe"; else echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
+        wget -q --show-progress --progress="bar:force:noscroll" http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip 2>&1  \ 
+        -O /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ;fi \
+        && unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} 
+
+RUN chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
+        && echo ${PENTAHO_HOME} \
+        && chown -R pentaho:pentaho ${PENTAHO_HOME} \
+        && chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh 
+
+
+
+RUN  apt-get purge --auto-remove -yqq \
         && apt-get autoremove -yqq --purge \
         && apt-get clean \
         && rm -f $PENTAHO_HOME/pentaho-server/promptuser.sh \

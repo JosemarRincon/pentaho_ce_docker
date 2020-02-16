@@ -25,7 +25,7 @@ services:
         depends_on:
             - pentaho-db
         ports:
-            - "8081:8080"
+            - "8080:8080"
         environment: 
             - THEMA=sapphire
             - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true -Dhttp.proxyHost=10.239.68.1 -Dhttp.proxyPort=3128
