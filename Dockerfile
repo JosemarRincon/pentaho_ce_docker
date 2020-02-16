@@ -61,11 +61,11 @@ COPY scripts ${PENTAHO_HOME}/scripts
 RUN if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo existe"; else echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
         wget -q --show-progress --progress="bar:force:noscroll" http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip 2>&1  \ 
         -O /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ;fi \
-        && unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} 
-
-RUN chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
+        && unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} \
+        && chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
         && echo ${PENTAHO_HOME} \
         && chown -R pentaho:pentaho ${PENTAHO_HOME} \
+        && rm -rf /tmp/pentaho-server-ce-${BISERVER_TAG}.zip \ 
         && chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh 
 
 
