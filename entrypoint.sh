@@ -28,6 +28,11 @@ set -e
 : "${HIBERNATE_DIALECT:="org.hibernate.dialect.PostgreSQLDialect"}"
 : "${VALIDATION_QUERY:="select 1"}"
 
+: "${PENTAHO_LOG_LEVEL:="WARN"}"
+: "${WEBDETAILS_LOG_LEVEL:="WARN"}"
+: "${MONDRIAN_LOG_LEVEL:="DEBUG"}"
+
+
 export \
 SERVER_PORT \
 SERVER_PORT_AJP  \

@@ -1,5 +1,7 @@
 <?xml version="1.0" ?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<!DOCTYPE web-app PUBLIC 
+  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
 
@@ -124,10 +126,7 @@
       <param-name>cors.support.credentials</param-name>
       <param-value>true</param-value>
     </init-param>
-    <init-param>
-      <param-name>cors.preflight.maxage</param-name>
-      <param-value>10</param-value>
-    </init-param>
+    
   </filter>
   <filter-mapping>
     <filter-name>CorsFilter</filter-name>

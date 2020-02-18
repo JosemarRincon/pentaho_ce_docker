@@ -54,6 +54,13 @@ sed -i "s/\@DRIVER_CLASS_NAME\@/${DRIVER_CLASS_NAME}/g" $PENTAHO_HOME/config/con
 sed -i "s/\@VALIDATION_QUERY\@/${VALIDATION_QUERY}/g" $PENTAHO_HOME/config/context.xml && \
 cp -f $PENTAHO_HOME/config/context.xml $PENTAHO_HOME/pentaho-server/tomcat/webapps/pentaho/META-INF
 
+
+sed -i "s/\@PENTAHO_LOG_LEVEL\@/${PENTAHO_LOG_LEVEL}/g" $PENTAHO_HOME/config/log4j.xml && \
+sed -i "s/\@WEBDETAILS_LOG_LEVEL\@/${WEBDETAILS_LOG_LEVEL}/g" $PENTAHO_HOME/config/log4j.xml && \
+sed -i "s/\@MONDRIAN_LOG_LEVEL\@/${MONDRIAN_LOG_LEVEL}/g" $PENTAHO_HOME/config/log4j.xml && \
+cp -f $PENTAHO_HOME/config/log4j.xml $PENTAHO_HOME/pentaho-server/tomcat/webapps/pentaho/WEB-INF/classes
+
+
 sed -i "s/\@SOLUTION_HOME\@//g" $PENTAHO_HOME/config/web.xml && \
 sed -i "s/@START_COMMENT_HSQLDB@/\<\!\-\-/g" $PENTAHO_HOME/config/web.xml && \
 sed -i "s/@END_COMMENT_HSQLDB@/\-\-\>/g" $PENTAHO_HOME/config/web.xml && \

@@ -1,4 +1,4 @@
-FROM openjdk:8u242
+FROM openjdk:8u242-slim
 LABEL maintainer="josemar.rincon@goias.gov.br"
 
 # Never prompt the user for choices on installation/configuration of packages
@@ -34,6 +34,7 @@ RUN set -ex \
         curl \
         vim  \
         rsync \
+        git \
         netcat \
         postgresql-client \
         locales \
@@ -56,6 +57,8 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
+#COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+#COPY custom.zip /tmp
 
 # Download Pentaho BI Server
 RUN if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo existe"; else echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
@@ -68,7 +71,9 @@ RUN if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo exi
         && rm -rf /tmp/pentaho-server-ce-${BISERVER_TAG}.zip \ 
         && chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh 
 
-
+RUN  wget -q --show-progress --progress="bar:force:noscroll" https://github.com/JosemarRincon/pentaho-fastsync-plugin/releases/download/v0.3.0/fastsync-0.3.0.zip \
+        -O /tmp/fastsync-0.3.0.zip && unzip -q /tmp/fastsync-0.3.0.zip -d ${SOLUTION_HOME}/system \
+        && rm -rf ${PENTAHO_HOME}/pentaho-server/tomcat/lib/mysql-connector-java-5.1.17.jar 
 
 RUN  apt-get purge --auto-remove -yqq \
         && apt-get autoremove -yqq --purge \
