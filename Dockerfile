@@ -31,6 +31,7 @@ RUN set -ex \
         && apt-get install -yqq --no-install-recommends \
         apt-utils \
         python3 \
+        openssh-client \
         curl \
         vim  \
         rsync \
