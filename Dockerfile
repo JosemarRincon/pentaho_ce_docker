@@ -58,11 +58,14 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
-COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+#COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
 #COPY custom.zip /tmp
 
 # Download Pentaho BI Server
-RUN  unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} \
+RUN  if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo existe"; else echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
+        wget -q --show-progress --progress="bar:force:noscroll" http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip 2>&1  \ 
+        -O /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ;fi \
+        && unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} \
         && chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
         && echo ${PENTAHO_HOME} \
         && chown -R pentaho:pentaho ${PENTAHO_HOME} \
