@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 : "${MODO_EXEC:="default"}"
+# file path where is the jndi connections
+: "${PATH_FILE_CONNECTIONS:="config/connections.xml"}"
 
 : "${PG_HOST:="pentaho-db"}"
 : "${PG_PORT:="5432"}"
@@ -38,6 +40,7 @@ SERVER_PORT \
 SERVER_PORT_AJP  \
 SERVER_CONNECTION_TIME  \
 SERVER_HOST \
+PATH_FILE_CONNECTIONS \
 
 #Carrega escript de migração para postgres
 source scripts/config-postgres.sh

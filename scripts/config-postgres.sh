@@ -100,6 +100,7 @@ sed -i "s/CREATE USER.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/creat
 
 # script para config do server.xml
 python3 scripts/config_server.py  server_xml
+python3 scripts/config_server.py  context_xml
 
 # Aguarda postgres subir
 #waiting_db
