@@ -15,6 +15,9 @@ function waiting_db(){
 
 function config_pg() {
 #-------configurando hibernate
+rm -rf "$PENTAHO_HOME/pentaho-server/tomcat/conf/Catalina/*"
+rm -rf "$PENTAHO_HOME/pentaho-server/tomcat/temp/*"
+rm -rf "$PENTAHO_HOME/pentaho-server/tomcat/work/*"
 
 sed -i 's/hsql/postgresql/g' ${SOLUTION_HOME}/system/hibernate/hibernate-settings.xml
 
