@@ -23,14 +23,14 @@ sed -i 's/hsql/postgresql/g' ${SOLUTION_HOME}/system/hibernate/hibernate-setting
 
 sed -i "s/driver_class.*/driver_class\">${DRIVER_CLASS_NAME}<\/property>/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
 sed -i "s/jdbc:.*/${PG_HIBERNATE_URL}<\/property>/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
-sed -i "s/username.*/username\">${PG_USER}<\/property>/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
-sed -i "s/password.*/password\">${PG_PASSWORD}<\/property>/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
+sed -i "s/username.*/username\">${PG_SERVER_USER}<\/property>/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
+sed -i "s/password.*/password\">${PG_SERVER_PWD}<\/property>/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
 sed -i "s/org.hibernate.dialect.*ct/${HIBERNATE_DIALECT}/g" $SOLUTION_HOME/system/hibernate/postgresql.hibernate.cfg.xml
 
 sed -i "s/driver=.*/driver=${DRIVER_CLASS_NAME}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
 sed -i "s/jdbc:.*/${PG_HIBERNATE_URL}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
-sed -i "s/username=.*/username=${PG_USER}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
-sed -i "s/password=.*/password=${PG_PASSWORD}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
+sed -i "s/username=.*/username=${PG_SERVER_USER}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
+sed -i "s/password=.*/password=${PG_SERVER_PWD}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
 sed -i "s/org.hibernate.dialect.*ct/${HIBERNATE_DIALECT}/g" $SOLUTION_HOME/system/applicationContext-spring-security-hibernate.properties
 cp -f $PENTAHO_HOME/config/applicationContext-spring-security.xml $SOLUTION_HOME/system && \
 
@@ -44,15 +44,15 @@ cp -f $PENTAHO_HOME/config/repository.spring.xml $SOLUTION_HOME/system && \
 
 #-------configurando conexoes metadados jackrabbit
 sed -i "s/\@URL_JCR\@/${PG_JACKRABBIT_URL}/g" $PENTAHO_HOME/config/repository.xml && \
-sed -i "s/\@USERNAME\@/${PG_USER}/g" $PENTAHO_HOME/config/repository.xml && \
-sed -i "s/\@PASSWORD\@/${PG_PASSWORD}/g" $PENTAHO_HOME/config/repository.xml && \
+sed -i "s/\@USERNAME\@/${PG_SERVER_USER}/g" $PENTAHO_HOME/config/repository.xml && \
+sed -i "s/\@PASSWORD\@/${PG_SERVER_PWD}/g" $PENTAHO_HOME/config/repository.xml && \
 cp -f $PENTAHO_HOME/config/repository.xml $SOLUTION_HOME/system/jackrabbit
 
 #-------configurando conexoes metadados hibernate e quartz
 sed -i "s/\@URL_HIBER\@/${PG_HIBERNATE_URL}/g" $PENTAHO_HOME/config/context.xml && \
 sed -i "s/\@URL_QUARTZ\@/${PG_QUARTZ_URL}/g" $PENTAHO_HOME/config/context.xml && \
-sed -i "s/\@USERNAME\@/${PG_USER}/g" $PENTAHO_HOME/config/context.xml && \
-sed -i "s/\@PASSWORD\@/${PG_PASSWORD}/g" $PENTAHO_HOME/config/context.xml && \
+sed -i "s/\@USERNAME\@/${PG_SERVER_USER}/g" $PENTAHO_HOME/config/context.xml && \
+sed -i "s/\@PASSWORD\@/${PG_SERVER_PWD}/g" $PENTAHO_HOME/config/context.xml && \
 sed -i "s/\@DRIVER_CLASS_NAME\@/${DRIVER_CLASS_NAME}/g" $PENTAHO_HOME/config/context.xml && \
 sed -i "s/\@VALIDATION_QUERY\@/${VALIDATION_QUERY}/g" $PENTAHO_HOME/config/context.xml && \
 cp -f $PENTAHO_HOME/config/context.xml $PENTAHO_HOME/pentaho-server/tomcat/webapps/pentaho/META-INF
@@ -80,22 +80,22 @@ sed -i 's/\(exec ".*"\) start/\1 run/' $PENTAHO_HOME/pentaho-server/tomcat/bin/s
 
 # configura banco
 sed -i "s/jackrabbit/${PG_JACKRABBIT_DB}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
-sed -i "s/jcr_user/${PG_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
-sed -i "s/password/${PG_PASSWORD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
+sed -i "s/jcr_user/${PG_SERVER_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
+sed -i "s/password/${PG_SERVER_PWD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
 # remove drop e create user
 sed -i "s/drop user.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
 sed -i "s/CREATE USER.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
 
 sed -i "s/hibernate/${PG_HIBERNATE_DB}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
-sed -i "s/hibuser/${PG_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
-sed -i "s/password/${PG_PASSWORD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
+sed -i "s/hibuser/${PG_SERVER_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
+sed -i "s/password/${PG_SERVER_PWD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
 # remove drop e create user
 sed -i "s/drop user.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
 sed -i "s/CREATE USER.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
 
 sed -i "s/quartz/${PG_QUARTZ_DB}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
-sed -i "s/pentaho_user/${PG_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
-sed -i "s/password/${PG_PASSWORD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
+sed -i "s/pentaho_user/${PG_SERVER_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
+sed -i "s/password/${PG_SERVER_PWD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
 #sed -i "s/qrtz5_/qrtz_/g" ${PENTAHO_HOME}/pentaho-server/data/create_quartz_postgresql.sql
 # remove drop e create user
 sed -i "s/drop user.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
@@ -109,8 +109,16 @@ python3 scripts/config_server.py  context_xml
 #waiting_db
 
 export PGPASSWORD=$PG_PASSWORD
-if ! psql -lqt -U $PG_USER -h $PG_HOST | grep -w ${PG_HIBERNATE_DB}; then
+if ! psql -lqt -U $PG_USER -h $PG_HOST -c "SELECT usename FROM pg_user;" | grep -w ${PG_SERVER_USER}; then
+    
+    echo $(psql -lqt -U $PG_USER -h $PG_HOST -c "SELECT usename FROM pg_user;")
+
+    echo "-----> creating user ${PG_SERVER_USER}"
+    psql -U $PG_USER -h $PG_HOST -c "DROP USER IF EXISTS ${PG_SERVER_USER} ;"
+    psql -U $PG_USER -h $PG_HOST -c "CREATE USER ${PG_SERVER_USER} WITH LOGIN ENCRYPTED PASSWORD '${PG_SERVER_PWD}';"
+    
     echo "-----> importing sql files"
+
     psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
     psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
     psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql

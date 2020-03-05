@@ -4,17 +4,17 @@ set -e
 # file path where is the jndi connections
 : "${PATH_FILE_CONNECTIONS:="config/connections.xml"}"
 
-: "${PG_HOST:="pentaho-db"}"
-: "${PG_PORT:="5432"}"
-
 : "${SERVER_PORT:="8080"}"
 : "${SERVER_PORT_AJP:="8009"}"
 : "${SERVER_CONNECTION_TIME:="60000"}"
 : "${SERVER_HOST:="localhost"}"
 : "${CORS_REQUESTS_ALLOWED:="http:\\/\\/localhost:8080"}"
 
-: "${PG_USER:="pentaho"}"
-: "${PG_PASSWORD:="pentahouser"}"
+: "${PG_HOST:="pentaho-db"}"
+: "${PG_PORT:="5432"}"
+
+: "${PG_USER:="postgres"}"
+: "${PG_PASSWORD:="postgresuser"}"
 
 : "${PG_HIBERNATE_DB:="hibernate"}"
 : "${PG_JACKRABBIT_DB:="jackrabbit"}"
@@ -34,6 +34,8 @@ set -e
 : "${WEBDETAILS_LOG_LEVEL:="WARN"}"
 : "${MONDRIAN_LOG_LEVEL:="DEBUG"}"
 
+: "${PG_SERVER_USER:="pentaho"}"
+: "${PG_SERVER_PWD:="pentahosuser"}"
 
 export \
 SERVER_PORT \

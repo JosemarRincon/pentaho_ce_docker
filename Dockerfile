@@ -12,7 +12,7 @@ ENV BISERVER_TAG 8.0.0.0-28
 # Apply JAVA_HOME
 ENV PENTAHO_HOME /opt/pentaho
 ENV SOLUTION_HOME ${PENTAHO_HOME}/pentaho-server/pentaho-solutions
-RUN . /etc/environment
+#RUN . /etc/environment
 ENV PENTAHO_JAVA_HOME $JAVA_HOME
 ENV PATH $PENTAHO_HOME/pentaho-server:$PATH
 
@@ -23,9 +23,14 @@ ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 ENV LC_MESSAGES en_US.UTF-8
+  
 
+
+RUN cat /etc/apt/sources.list
 # Install Dependences
 RUN set -ex \
+        && apt-get clean \
+        && apt -o APT::Sandbox::User=root update \
         && apt-get update -yqq \
         && apt-get upgrade -yqq \
         && apt-get install -yqq --no-install-recommends \
@@ -58,7 +63,7 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
-#COPY pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
 #COPY custom.zip /tmp
 
 # Download Pentaho BI Server

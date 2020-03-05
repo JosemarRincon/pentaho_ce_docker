@@ -3,14 +3,15 @@ services:
     pentaho-db:
         image: postgres:9.6
         container_name: pentaho-db
+        restart: always
         healthcheck:
             test: "pg_isready -q -h pentaho-db"
             interval: 3s
             timeout: 5s
             retries: 5
         environment:
-            - POSTGRES_USER=pentaho
-            - POSTGRES_PASSWORD=pentahouser
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgresuser
         logging:
             options:
                 max-size: 10m
