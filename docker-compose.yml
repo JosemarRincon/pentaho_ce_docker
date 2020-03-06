@@ -1,7 +1,7 @@
 version: '3.3'
 services:
     pentaho-db:
-        image: postgres:9.6
+        image: postgres:11.5
         container_name: pentaho-db
         restart: always
         healthcheck:
@@ -30,4 +30,10 @@ services:
         environment: 
             - THEMA=sapphire
             - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true -Dhttp.proxyHost=10.239.68.1 -Dhttp.proxyPort=3128
+        volumes:
+            - solutions:/opt/pentaho/pentaho-server/pentaho-solutions
         command: run
+
+volumes:
+    
+    solutions:
