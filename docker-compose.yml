@@ -20,7 +20,7 @@ services:
         build: 
             context: .
             dockerfile: Dockerfile
-        image: sesgo/pentaho-server:8.0.0.0-28
+        image: rincon/pentaho-server:8.0.0.0-28
         container_name: pentaho-server
         restart: always
         depends_on:

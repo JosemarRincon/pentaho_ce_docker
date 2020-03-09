@@ -96,7 +96,10 @@ sed -i "s/CREATE USER.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/creat
 sed -i "s/quartz/${PG_QUARTZ_DB}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
 sed -i "s/pentaho_user/${PG_USER}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
 sed -i "s/password/${PG_PASSWORD}/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
-#sed -i "s/qrtz5_/qrtz_/g" ${PENTAHO_HOME}/pentaho-server/data/create_quartz_postgresql.sql
+sed -i "s/z5/z/g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
+sed -i "s/Z5/Z/g" ${SOLUTION_HOME}/system/quartz/quartz.properties
+
+
 # remove drop e create user
 sed -i "s/drop user.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
 sed -i "s/CREATE USER.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
@@ -121,14 +124,19 @@ if [ "${SERVER_HOST}" == "localhost" ]; then
   fi
 fi
 
-
+if ! psql -lqt -U $PG_USER -h $PG_HOST  | grep -w ${PG_QUARTZ_DB}; then
+    echo "-----> importing table ${PG_QUARTZ_DB}"
+    psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
+fi
    
 if ! psql -lqt -U $PG_USER -h $PG_HOST  | grep -w ${PG_HIBERNATE_DB}; then
-
-    echo "-----> importing sql files"
-    psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
+    echo "-----> importing table ${PG_HIBERNATE_DB}"
     psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_repository_postgresql.sql
-    psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_quartz_postgresql.sql
+fi
+
+if ! psql -lqt -U $PG_USER -h $PG_HOST  | grep -w ${PG_JACKRABBIT_DB}; then
+    echo "-----> importing table ${PG_JACKRABBIT_DB}"
+    psql -U ${PG_USER} -h ${PG_HOST} -f ${PENTAHO_HOME}/pentaho-server/data/postgresql/create_jcr_postgresql.sql
 fi
 unset PGPASSWORD
 
