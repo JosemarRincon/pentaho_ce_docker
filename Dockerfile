@@ -63,9 +63,8 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
-#ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
 #COPY custom.zip /tmp
-
 # Download Pentaho BI Server
 RUN  if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo existe"; else echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
         wget -q --show-progress --progress="bar:force:noscroll" http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip 2>&1  \ 

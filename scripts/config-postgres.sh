@@ -110,12 +110,18 @@ python3 scripts/config_server.py  context_xml
 cp -Rf ${PENTAHO_HOME}/pentaho-server/data/postgresql/ ${SOLUTION_HOME}
 
 export PGPASSWORD=$PG_PASSWORD
-if ! psql -lqt -U $PG_USER -h $PG_HOST -c "SELECT usename FROM pg_user;" | grep -w root; then
-    # necessario ao usar o postgres 11.5
-    echo "-----> creating user root"
-    psql -U $PG_USER -h $PG_HOST -c "DROP USER IF EXISTS root ;"
-    psql -U $PG_USER -h $PG_HOST -c "CREATE USER root WITH LOGIN ENCRYPTED PASSWORD '${PG_PASSWORD}';"
+
+
+if [ "${SERVER_HOST}" == "localhost" ]; then
+  if ! psql -lqt -U $PG_USER -h $PG_HOST -c "\du;" | grep -w root; then
+      # necessario ao usar o postgres 11.5
+      echo "-----> creating user root"
+      psql -U $PG_USER -h $PG_HOST -c "DROP USER IF EXISTS root ;"
+      psql -U $PG_USER -h $PG_HOST -c "CREATE USER root WITH LOGIN ENCRYPTED PASSWORD '${PG_PASSWORD}';"
+  fi
 fi
+
+
    
 if ! psql -lqt -U $PG_USER -h $PG_HOST  | grep -w ${PG_HIBERNATE_DB}; then
 
