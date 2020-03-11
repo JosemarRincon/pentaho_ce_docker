@@ -108,10 +108,6 @@ sed -i "s/CREATE USER.*//g" ${PENTAHO_HOME}/pentaho-server/data/postgresql/creat
 python3 scripts/config_server.py  server_xml
 python3 scripts/config_server.py  context_xml
 
-# Aguarda postgres subir
-#waiting_db
-cp -Rf ${PENTAHO_HOME}/pentaho-server/data/postgresql/ ${SOLUTION_HOME}
-
 export PGPASSWORD=$PG_PASSWORD
 
 
