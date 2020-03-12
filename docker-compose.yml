@@ -29,7 +29,7 @@ services:
             - "8080:8080"
         environment: 
             - THEMA=sapphire
-            - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true -Dhttp.proxyHost=10.239.68.1 -Dhttp.proxyPort=3128
+            - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true
         volumes:
             - solutions:/opt/pentaho/pentaho-server/pentaho-solutions
         command: run
@@ -37,3 +37,4 @@ services:
 volumes:
     
     solutions:
+        name: pentaho-solutions

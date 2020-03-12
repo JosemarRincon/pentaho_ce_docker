@@ -1,4 +1,4 @@
-FROM openjdk:8u242-slim
+FROM openjdk:8u242
 LABEL maintainer="josemar.rincon@goias.gov.br"
 
 # Never prompt the user for choices on installation/configuration of packages
@@ -63,7 +63,7 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 COPY ./entrypoint.sh /
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
-#ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
 
 # Download Pentaho BI Server
 RUN  if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo existe"; else echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
