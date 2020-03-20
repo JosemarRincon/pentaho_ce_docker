@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 : "${MODO_EXEC:="default"}"
+: "${DEBUG:="false"}"
 # file path where is the jndi connections
 : "${PATH_FILE_CONNECTIONS:="config/connections.xml"}"
 
@@ -51,8 +52,12 @@ config_pg
 
 if [ "$1" = 'run' ]; then
   echo "***** iniciando pentaho server *****"
-  
-  sh ${PENTAHO_HOME}/pentaho-server/start-pentaho.sh
+  if [ "${DEBUG}" = 'true' ]; then
+    sh ${PENTAHO_HOME}/pentaho-server/start-pentaho-debug.sh
+  else
+    sh ${PENTAHO_HOME}/pentaho-server/start-pentaho.sh
+
+  fi
 else
   exec "$@"
 fi

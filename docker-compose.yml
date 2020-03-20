@@ -29,6 +29,7 @@ services:
             - "8080:8080"
         environment: 
             - THEMA=sapphire
+            - DEBUG=true
             - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true
         volumes:
             - solutions:/opt/pentaho/pentaho-server/pentaho-solutions

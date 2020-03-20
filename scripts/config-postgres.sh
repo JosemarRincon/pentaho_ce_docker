@@ -76,6 +76,7 @@ sed -i "2s/true/false/g" ${SOLUTION_HOME}/system/security.properties
 
 #config parametros do java
 sed -i "s/=.*256m/=\"${JAVA_OPTS}/g" ${PENTAHO_HOME}/pentaho-server/start-pentaho.sh
+sed -i "s/=.*256m/=\"${JAVA_OPTS}/g" ${PENTAHO_HOME}/pentaho-server/start-pentaho-debug.sh
 sed -i 's/\(exec ".*"\) start/\1 run/' $PENTAHO_HOME/pentaho-server/tomcat/bin/startup.sh
 
 # configura banco
