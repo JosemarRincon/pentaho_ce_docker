@@ -72,13 +72,13 @@ RUN  if [ -e /tmp/pentaho-server-ce-${BISERVER_TAG}.zip ]; then echo "Arquivo ex
         && unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} \
         && chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
         && echo ${PENTAHO_HOME} \
-        && chown -R pentaho:pentaho ${PENTAHO_HOME} \
         && rm -rf /tmp/pentaho-server-ce-${BISERVER_TAG}.zip \ 
         && chmod +x ${PENTAHO_HOME}/pentaho-server/*.sh 
 
 RUN  wget -q --show-progress --progress="bar:force:noscroll" https://github.com/JosemarRincon/pentaho-fastsync-plugin/releases/download/v0.3.0/fastsync-0.3.0.zip \
         -O /tmp/fastsync-0.3.0.zip && unzip -q /tmp/fastsync-0.3.0.zip -d ${SOLUTION_HOME}/system \
-        && rm -rf ${PENTAHO_HOME}/pentaho-server/tomcat/lib/mysql-connector-java-5.1.17.jar 
+        && rm -rf ${PENTAHO_HOME}/pentaho-server/tomcat/lib/mysql-connector-java-5.1.17.jar \
+        && chown -R pentaho:pentaho ${PENTAHO_HOME} 
 
 RUN  apt-get purge --auto-remove -yqq \
         && apt-get autoremove -yqq --purge \
