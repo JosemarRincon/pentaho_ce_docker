@@ -10,7 +10,7 @@ def context_xml():
     origem_tree =  ET.parse(origem)
     origem_root = origem_tree.getroot()
     # path file jndi
-    dest = os.getenv('PATH_FILE_CONNECTIONS')
+    dest = os.getenv('JNDI_CONNECTIONS')
     dest_tree =  ET.parse(dest)
     dest_root = dest_tree.getroot()
     
@@ -67,7 +67,7 @@ qual_metodo_usar = sys.argv[1]
 if qual_metodo_usar == "server_xml":
     server_xml()
 if qual_metodo_usar == "context_xml":
-    if path.exists(str(os.getenv('PATH_FILE_CONNECTIONS'))):
+    if path.exists(str(os.getenv('JNDI_CONNECTIONS'))):
         context_xml()
     else:
-        print("File connectios does not exist!")
+        print("File connections does not exist!")

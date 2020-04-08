@@ -63,13 +63,13 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho;
 COPY config ${PENTAHO_HOME}/config
 COPY scripts ${PENTAHO_HOME}/scripts
 COPY scripts/entrypoint.sh /entrypoint.sh
-ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
+#ADD pentaho-server-ce-${BISERVER_TAG}.zip /tmp
 
 # Download Pentaho BI Server
-# RUN   echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
-#         wget -q --show-progress --progress="bar:force:noscroll" http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip 2>&1  \ 
-#         -O /tmp/pentaho-server-ce-${BISERVER_TAG}.zip  \
-RUN unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} \
+RUN   echo "Baixando o arquivo pentaho-server-ce-${BISERVER_TAG}.zip";  \
+        wget -q --show-progress --progress="bar:force:noscroll" http://sourceforge.net/projects/pentaho/files/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip 2>&1  \ 
+        -O /tmp/pentaho-server-ce-${BISERVER_TAG}.zip  \
+        && unzip -q  /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d  ${PENTAHO_HOME} \
         && chmod +x ${PENTAHO_HOME}/pentaho-server/tomcat/bin/*.sh \
         && wget -q --show-progress --progress="bar:force:noscroll" https://github.com/JosemarRincon/pentaho-fastsync-plugin/releases/download/v0.3.0/fastsync-0.3.0.zip \
         -O /tmp/fastsync-0.3.0.zip && unzip -q /tmp/fastsync-0.3.0.zip -d ${SOLUTION_HOME}/system \
@@ -90,7 +90,6 @@ RUN  apt-get purge --auto-remove -yqq \
                 /usr/share/man \
                 /usr/share/doc \
                 /usr/share/doc-base 
-
 
 
 USER pentaho

@@ -2,8 +2,15 @@
 set -e
 : "${MODO_EXEC:="default"}"
 : "${DEBUG:="false"}"
+: "${JAVA_OPTS:="-Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true"}"
+: "${MEN_INITIAL:="512m"}"
+: "${MEN_MAX:="1700m"}"
+: "${MEMORY:="-Xms${MEN_INITIAL} -Xmx${MEN_MAX}"}"
+: "${JAVA_OPTS_COMP:="${MEMORY} ${JAVA_OPTS}"}"
+
 # file path where is the jndi connections
-: "${PATH_FILE_CONNECTIONS:="config/connections.xml"}"
+: "${HOSTENV:="desenv"}"
+: "${JNDI_CONNECTIONS:="config/jndi-${HOSTENV}.xml"}"
 
 : "${SERVER_PORT:="8080"}"
 : "${SERVER_PORT_AJP:="8009"}"
@@ -43,7 +50,7 @@ SERVER_PORT \
 SERVER_PORT_AJP  \
 SERVER_CONNECTION_TIME  \
 SERVER_HOST \
-PATH_FILE_CONNECTIONS \
+JNDI_CONNECTIONS \
 
 #Carrega escript de migração para postgres
 source scripts/config-postgres.sh
