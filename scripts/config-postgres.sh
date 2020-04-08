@@ -1,18 +1,5 @@
 #!/bin/bash
 
-function waiting_db(){
-  pg_isready -h $PG_HOST -p $PG_PORT
-  echo $?
-  echo -n "-----> waiting for database on $PG_HOST:$PG_PORT ...\n"
-  while ! (pg_isready -h $PG_HOST -p $PG_PORT)
-  do
-    echo -n '.'
-    sleep 2
-  done
-    echo '[OK]'
-}
-
-
 function config_pg() {
 #-------configurando hibernate
 rm -rf "$PENTAHO_HOME/pentaho-server/tomcat/conf/Catalina/*"

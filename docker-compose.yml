@@ -12,6 +12,9 @@ services:
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgresuser
+            - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+            - pgdata:/var/lib/postgresql/data/pgdata
         logging:
             options:
                 max-size: 10m
@@ -29,13 +32,13 @@ services:
             - "8080:8080"
         environment: 
             - THEMA=sapphire
-            - DEBUG=true
             - JAVA_OPTS= -Xms512m -Xmx2048m -XX:MaxPermSize=256m  -Duser.country=BR -Duser.language=pt -Djava.util.Arrays.useLegacyMergeSort=true
         volumes:
             - solutions:/opt/pentaho/pentaho-server/pentaho-solutions
         command: run
 
 volumes:
-    
     solutions:
-        name: pentaho-solutions
+        name: desenv-solutions
+    pgdata:
+        name: desenv_pgdata
